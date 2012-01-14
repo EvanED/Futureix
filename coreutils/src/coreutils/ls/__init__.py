@@ -1,4 +1,24 @@
-def ls(directory, pattern, recursive):
+import support
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--directory', help='List entry for directories on the command line instead of their contents')
+parser.add_argument('-r', '--recursive', help='List directory contents recursively')
+parser.add_argument('paths', metavar='PATH', nargs='*', help='Files and directories to display information about')
+
+
+def output_listing(path):
+    pass
+
+def main(arguments):
+    if len(arguments.paths) == 0:
+        arguments.paths = ['.']
+        
+    for path in arguments.paths:
+        output_listing(path)
+
+
+def ls(directory, pattern, recursive, follow_links):
     """Emits JSON entries for files matching the criteria.
     
     directory - the name of the directory to search
@@ -8,3 +28,14 @@ def ls(directory, pattern, recursive):
     """
     
     pass
+
+
+
+#futureix_options = 
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    
+    print args
+    print args.recursive
+    print args.paths

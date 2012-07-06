@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import readdir.posix_wrapper  #FIXME after moving readdir to generic
-pyreaddir = readdir.posix_wrapper
+import readdir
 import os
 import sys
 import json
@@ -10,7 +9,7 @@ def output_for_path(path):
     # If it's a file, we just list it. If it's a directory, we have to
     # print out the contents.
     if os.path.isdir(path):
-        dircontents = pyreaddir.readdir(path)
+        dircontents = readdir.readdir(path)
         for entry in dircontents:
             print entry.to_json()
     elif os.path.lexists(path):

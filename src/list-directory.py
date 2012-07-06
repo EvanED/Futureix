@@ -3,7 +3,7 @@
 import posix2  #FIXME after moving readdir to generic
 pyreaddir = posix2
 import sys
-
+import json
 
 def main(argv):
     paths = argv[1:]
@@ -13,11 +13,7 @@ def main(argv):
     for path in paths:
         dircontents = pyreaddir.readdir(path)
         for entry in dircontents:
-            if entry.is_directory():
-                dirmarker = "/"
-            else:
-                dirmarker = ""
-            print "%s%s" % (entry.name, dirmarker)
+            print entry.to_json()
 
 
 if __name__ == "__main__":

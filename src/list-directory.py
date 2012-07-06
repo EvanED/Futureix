@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import posix2  #FIXME after moving readdir to generic
-pyreaddir = posix2
+import posix_wrapper  #FIXME after moving readdir to generic
+pyreaddir = posix_wrapper
 import os
 import sys
 import json

@@ -1,5 +1,9 @@
 import support
 import argparse
+import readdir
+import os
+import sys
+import json
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--directory', help='List entry for directories on the command line instead of their contents')
@@ -8,7 +12,17 @@ parser.add_argument('paths', metavar='PATH', nargs='*', help='Files and director
 
 
 def output_listing(path):
-    pass
+    # If it's a file, we just list it. If it's a directory, we have to
+    # print out the contents.
+    if os.path.isdir(path):
+        dircontents = readdir.readdir(path)
+        for entry in dircontents:
+            print entry.to_json()
+    elif os.path.lexists(path):
+        print path
+    else:
+        msg = "%s: cannot access %s: No such file or directory"
+        sys.stderr.write(msg % (sys.argv[0], path))
 
 def main(arguments):
     if len(arguments.paths) == 0:
@@ -35,7 +49,4 @@ def ls(directory, pattern, recursive, follow_links):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    
-    print args
-    print args.recursive
-    print args.paths
+    main(args)

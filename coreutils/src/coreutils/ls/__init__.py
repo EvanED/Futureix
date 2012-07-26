@@ -10,6 +10,11 @@ parser.add_argument('-d', '--directory', help='List entry for directories on the
 parser.add_argument('-r', '--recursive', help='List directory contents recursively')
 parser.add_argument('paths', metavar='PATH', nargs='*', help='Files and directories to display information about')
 
+typeinfo = {
+    "type name":               "file info",
+    "default display columns": ["name", "path", "kind"]
+}
+
 
 def output_listing(path):
     # If it's a file, we just list it. If it's a directory, we have to
@@ -17,7 +22,7 @@ def output_listing(path):
     if os.path.isdir(path):
         dircontents = readdir.readdir(path)
         for entry in dircontents:
-            print entry.to_json()
+            print entry.to_json(extras = {"-meta type": typeinfo})
     elif os.path.lexists(path):
         print path
     else:
@@ -42,8 +47,6 @@ def ls(directory, pattern, recursive, follow_links):
     """
     
     pass
-
-
 
 #futureix_options = 
 

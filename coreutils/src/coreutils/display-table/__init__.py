@@ -8,10 +8,12 @@ def read_json_objects(stream):
     return (json.loads(line) for line in stream)
 
 def get_column_specs(objects):
-    """A colum spec is a tuple (name, size)"""
+    """A column spec is a tuple (name, size)"""
     col_specs = {}
     for obj in objects:
         for (k,v) in obj.iteritems():
+            if k.startswith("-meta"):
+                continue
             v = str(v)
             spec = col_specs.get(k, (k, len(k)))
             if len(v) > spec[1]:
@@ -21,6 +23,7 @@ def get_column_specs(objects):
 
 
 def print_object(obj, cols):
+    """Outputs the given object according to the given column specs"""
     def col_contribution(name, size):
         try:
             field = str(obj[name])
@@ -30,6 +33,9 @@ def print_object(obj, cols):
     print "  ".join(col_contribution(name, size) for (name, size) in cols)
 
 def print_header(cols):
+    """Outputs headers for the columns:
+    that is, column name and the dividing lines
+    """
     names = {name:name for (name, _) in cols}
     seps = {name:("-"*size) for (name, size) in cols}
     print_object(names, cols)

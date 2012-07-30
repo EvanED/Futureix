@@ -45,6 +45,7 @@ def print_header(cols):
 def main(args):
     objs = list(read_json_objects(sys.stdin))
     cols = get_column_specs(objs)
+    cols = sorted(cols)
     print_header(cols)
     for obj in objs:
         print_object(obj, cols)

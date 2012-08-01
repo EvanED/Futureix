@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export PYTHONPATH=$(pwd):/home/driscoll/programming/pyreaddir/install/lib/python2.7/site-packages/
+
+python coreutils/modify/__init__.py "$@"

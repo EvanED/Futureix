@@ -12,20 +12,27 @@ def read_json_objects(stream):
     return (json.loads(line) for line in stream)
 
 def get_transforms(args):
-    def make_remover(key):
-        def remover(obj):
-            try:
-                del obj[key]
-            except KeyError:
-                pass
-        return remover
-
     if args.remove_key:
+        def make_remover(key):
+            def remover(obj):
+                try:
+                    del obj[key]
+                except KeyError:
+                    pass
+            return remover
         return [make_remover(key) for key in args.remove_key.split(",")]
 
     if args.select_key:
-        print args.select_key
-        sys.exit(1)
+        def make_selector(keys):
+            def selector(obj):
+                keys_to_remove = set()
+                for k in obj.iterkeys():
+                    if k not in keys:
+                        keys_to_remove.add(k)
+                for k in keys_to_remove:
+                    del obj[k]
+            return selector
+        return [make_selector(args.select_key.split(","))]
 
     return [lambda x: x]
 

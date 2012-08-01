@@ -21,7 +21,7 @@ def get_transforms(args):
         return remover
 
     if args.remove_key:
-        return [make_remover(args.remove_key)]
+        return [make_remover(key) for key in args.remove_key.split(",")]
 
     if args.select_key:
         print args.select_key
